@@ -34,7 +34,7 @@ df_filtrado = df[df['Local'].isin(local_seleccionado) & df['Asesor'].isin(asesor
 
 # 3. Procesamiento: Obtener el ÚLTIMO histórico por vehículo (Igual al DAX corregido)
 # Filtramos solo por Mantenimiento Periódico
-df_mantenimientos = df_filtrado[df_filtrado['Tipo OT'] == "MANTENIMIENTO PERIODICO"].copy()
+df_mantenimientos = df_filtrado#[df_filtrado['Tipo OT'] == "MANTENIMIENTO PERIODICO"].copy()
 
 if not df_mantenimientos.empty:
     # Ordenamos por fecha y nos quedamos con el último registro por Placa
