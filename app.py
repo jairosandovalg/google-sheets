@@ -21,6 +21,7 @@ try:
     # Realizar el INNER JOIN por la columna 'Placa'
     # Esto solo mantendrá los registros de las órdenes cuyas placas existan en la pestaña de Clientes
     df = pd.merge(df_ordenes, df_clientes, on="Placa", how="inner")
+    df = df_ordenes
     
     st.sidebar.success("📊 Tablas combinadas (Inner Join) en tiempo real")
 except Exception as e:
