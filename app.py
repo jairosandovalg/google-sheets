@@ -11,19 +11,22 @@ st.title("🚗 Sistema Inteligente de Incremento de Paso Vehicular")
 st.markdown("---")
 
 # ==============================================================================
-# 1. CONEXIÓN CON GOOGLE SHEETS Y UNIÓN DE TABLAS (INNER JOIN)
+# 1. CONEXIÓN CON GOOGLE SHEETS Y UNIÓN DE TABLAS (INNER JOIN VIA PANDAS DIRECTO)
 # ==============================================================================
 try:
-    conn = st.connection("gsheets", type=GSheetsConnection)
+    # ID extraído de tu enlace de Google Sheets
+    sheet_id = "1jmAusQWSp3V70l3fz91FIqOaw5wO_u9o2c1jkBF4fTk"
     
-    # Leer la pestaña principal de Órdenes
-    df_ordenes = conn.read(worksheet="Ordenes", ttl="5m")
+    # Construcción de enlaces de exportación limpia para cada pestaña
+    # IMPORTANTE: Asegúrate de que 'Ordenes' y 'Cliente' se llamen así exactamente en tu Google Sheets
+    url_ordenes = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet=Ordenes"
+    url_clientes = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet=Cliente"
     
-    # Leer la segunda pestaña de Clientes
-    df_clientes = conn.read(worksheet="Cliente", ttl="5m")
+    # Lectura directa de datos
+    df_ordenes = pd.read_csv(url_ordenes)
+    df_clientes = pd.read_csv(url_clientes)
     
     # Realizar el INNER JOIN por la columna 'Placa'
-    # Consolida ambas estructuras de datos y guarda el resultado en 'df'
     df = pd.merge(df_ordenes, df_clientes, on="Placa", how="inner")
     
     st.sidebar.success("📊 Tablas combinadas (Inner Join) en tiempo real")
